@@ -18,7 +18,7 @@ class TestSelection : AppCompatActivity() {
             insets
         }*/
         val prefs = getSharedPreferences("PrepMatePrefs", MODE_PRIVATE)
-        val name = prefs.getString("userName", null).toString()
+        val name = prefs.getString("userName", null)
         val welcomeText = findViewById<TextView>(R.id.welcomeText)
         welcomeText.text = "Welcome, $name!"
     }
