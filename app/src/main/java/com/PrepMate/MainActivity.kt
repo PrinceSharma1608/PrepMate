@@ -23,7 +23,9 @@ class MainActivity : AppCompatActivity() {
             val nameEditText = findViewById<EditText>(R.id.nameEditText)
             val btn = findViewById<Button>(R.id.startButton)
             btn.setOnClickListener {
-
+                if (nameEditText.text.isBlank()){
+                    Toast.makeText(this, "Please enter your name to continue", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener}git
                 val name = nameEditText.text.toString().trim()
                 if (name.isNotEmpty()) {
                     prefs.edit()

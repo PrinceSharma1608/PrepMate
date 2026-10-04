@@ -7,35 +7,21 @@
     android:layout_height="match_parent"
     android:background="#071A33">
 
-    <!-- Back Button -->
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Back"
-        android:src="@android:drawable/ic_menu_revert"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="#FFFFFF" />
-
     <!-- Title -->
     <TextView
         android:id="@+id/setupTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="20dp"
         android:text="Quiz Setup"
         android:textColor="#FFFFFF"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/backButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/backButton"
-        app:layout_constraintTop_toTopOf="@id/backButton" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Selected Subject -->
     <TextView
@@ -74,14 +60,20 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/questionCountSpinner"
+        <EditText
+            android:id="@+id/questionCountEditText"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/setup_spinner_background"
+            android:hint="Enter number of questions"
+            android:inputType="number"
+            android:maxLines="1"
             android:paddingStart="14dp"
-            android:paddingEnd="14dp" />
+            android:paddingEnd="14dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#8FA8C4"
+            android:textSize="16sp" />
 
         <!-- Negative Marking -->
         <androidx.cardview.widget.CardView

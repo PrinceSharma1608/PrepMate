@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Spinner
+import android.widget.EditText
 import android.widget.Switch
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -40,38 +40,58 @@ class TestConfigFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Selected subject
         val subjectText =
             view.findViewById<TextView>(R.id.subjectText)
 
-        val questionCountSpinner =
-            view.findViewById<Spinner>(R.id.questionCountSpinner)
+        // Number of questions
+        val questionCountEditText =
+            view.findViewById<EditText>(R.id.questionCountEditText)
 
+        // Negative marking
         val negativeMarkingSwitch =
             view.findViewById<Switch>(R.id.negativeMarkingSwitch)
 
+        // Timer
         val timerSwitch =
             view.findViewById<Switch>(R.id.timerSwitch)
 
+        // Start button
         val startQuizButton =
             view.findViewById<Button>(R.id.startQuizButton)
+
 
         // Show selected subject
         subjectText.text = subject
 
+
+        // Start Quiz
         startQuizButton.setOnClickListener {
 
-            val selectedPosition =
-                questionCountSpinner.selectedItemPosition
+            val questionCountText =
+                questionCountEditText.text.toString().trim()
+
+            // Check if empty
+            if (questionCountText.isEmpty()) {
+
+                questionCountEditText.error =
+                    "Enter number of questions"
+
+                return@setOnClickListener
+            }
 
             val questionCount =
-                when (selectedPosition) {
-                    0 -> 10
-                    1 -> 20
-                    2 -> 30
-                    3 -> 50
-                    4 -> 100
-                    else -> 10
-                }
+                questionCountText.toIntOrNull()
+
+            // Check if valid number
+            if (questionCount == null || questionCount <= 0) {
+
+                questionCountEditText.error =
+                    "Enter a valid number"
+
+                return@setOnClickListener
+            }
+
 
             val negativeMarking =
                 negativeMarkingSwitch.isChecked
@@ -79,39 +99,56 @@ class TestConfigFragment : Fragment() {
             val timerEnabled =
                 timerSwitch.isChecked
 
+
             // Send configuration to ExamPage
             val intent = Intent(
                 requireContext(),
                 ExamPage::class.java
             )
 
-            intent.putExtra("subject", subject)
-            intent.putExtra("questionCount", questionCount)
+            intent.putExtra(
+                "subject",
+                subject
+            )
+
+            intent.putExtra(
+                "questionCount",
+                questionCount
+            )
+
             intent.putExtra(
                 "negativeMarking",
                 negativeMarking
             )
+
             intent.putExtra(
                 "timerEnabled",
                 timerEnabled
             )
 
+
             startActivity(intent)
 
-            // Don't keep configuration screen in back stack
+            // Close TestSelection activity
             requireActivity().finish()
         }
     }
 
+
     companion object {
 
-        fun newInstance(subject: String):
-                TestConfigFragment {
+        fun newInstance(
+            subject: String
+        ): TestConfigFragment {
 
             val fragment = TestConfigFragment()
 
             val bundle = Bundle()
-            bundle.putString("subject", subject)
+
+            bundle.putString(
+                "subject",
+                subject
+            )
 
             fragment.arguments = bundle
 
