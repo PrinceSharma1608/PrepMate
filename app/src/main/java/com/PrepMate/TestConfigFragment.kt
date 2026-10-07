@@ -13,24 +13,23 @@ import androidx.fragment.app.Fragment
 
 class TestConfigFragment : Fragment() {
 
-    private var subject: String = ""
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        subject = arguments?.getString("subject") ?: ""
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_test_config, container, false)
+        return inflater.inflate(
+            R.layout.fragment_test_config,
+            container,
+            false
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // Selected subject
         val subjectText = view.findViewById<TextView>(R.id.subjectText)
-
         // Number of questions
         val questionCountEditText = view.findViewById<EditText>(R.id.questionCountEditText)
 
@@ -43,10 +42,8 @@ class TestConfigFragment : Fragment() {
         // Start button
         val startQuizButton = view.findViewById<Button>(R.id.startQuizButton)
 
-
-        // Show selected subject
-        val subject = GlobalData.subject.toString()
-        subjectText.text = "You've Choosen : $subject"
+        // Display selected subject
+        subjectText.text = "You've Chosen : ${GlobalData.subject}"
 
 
         // Start Quiz
@@ -54,6 +51,7 @@ class TestConfigFragment : Fragment() {
 
             val questionCountText =
                 questionCountEditText.text.toString().trim()
+
 
             // Check if empty
             if (questionCountText.isEmpty()) {
@@ -64,72 +62,47 @@ class TestConfigFragment : Fragment() {
                 return@setOnClickListener
             }
 
-           var questionCount = questionCountText.toIntOrNull()
 
-            // Check if valid number
-            if (questionCount == null || questionCount <= 0) {
+            // Convert to Integer
+            val questionCount =
+                questionCountText.toIntOrNull()
+
+
+            // Check if between 1 and 100
+            if (
+                questionCount == null ||
+                questionCount <= 0 ||
+                questionCount > 100
+            ) {
 
                 questionCountEditText.error =
-                    "Enter a valid number"
+                    "Enter a number between 1 and 100"
 
                 return@setOnClickListener
             }
 
 
-            val negativeMarking = negativeMarkingSwitch.isChecked
+            // Store configuration in GlobalData
+            GlobalData.numberOfQuestions = questionCount.toString()
 
-            val timerEnabled = timerSwitch.isChecked
+            GlobalData.negativeMarking =
+                negativeMarkingSwitch.isChecked.toString()
+            val time =(Integer.parseInt(GlobalData.numberOfQuestions)/2).toString()
+            GlobalData.timer =
+                (if (timerSwitch.isChecked) time else 0).toString()
 
 
-            // Send configuration to ExamPage
+            // Start ExamPage
             val intent = Intent(
                 requireContext(),
                 ExamPage::class.java
             )
-            intent.putExtra(
-                "subject",
-                subject
-            )
-            intent.putExtra(
-                "questionCount",
-                questionCount
-            )
-
-            intent.putExtra(
-                "negativeMarking",
-                negativeMarking
-            )
-
-            intent.putExtra(
-                "timerEnabled",
-                timerEnabled
-            )
-
 
             startActivity(intent)
 
-            // Close TestSelection activity
+
+            // Close current Activity
             requireActivity().finish()
-        }
-    }
-
-
-    companion object {
-
-        fun newInstance(subject: String): TestConfigFragment {
-
-            val fragment = TestConfigFragment()
-
-            val bundle = Bundle()
-
-            bundle.putString(
-                "subject",
-                subject
-            )
-
-            fragment.arguments = bundle
-
-            return fragment
         }
     }
 }
