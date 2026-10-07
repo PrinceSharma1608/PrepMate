@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             btn.setOnClickListener {
                 if (nameEditText.text.isBlank()){
                     Toast.makeText(this, "Please enter your name to continue", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener}git
+                return@setOnClickListener}
                 val name = nameEditText.text.toString().trim()
                 if (name.isNotEmpty()) {
                     prefs.edit()

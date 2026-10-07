@@ -13,11 +13,9 @@ class TestSelection : AppCompatActivity() {
         if (savedInstanceState == null) {
 
             supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragmentContainerView,
-                    QuestionSelectionFragment()
-                )
+                .replace(R.id.fragmentContainerView, QuestionSelectionFragment())
                 .commit()
         }
+
     }
 }

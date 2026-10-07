@@ -21,48 +21,32 @@ class TestConfigFragment : Fragment() {
         subject = arguments?.getString("subject") ?: ""
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        return inflater.inflate(
-            R.layout.fragment_test_config,
-            container,
-            false
-        )
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_test_config, container, false)
     }
 
-    override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
-    ) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // Selected subject
-        val subjectText =
-            view.findViewById<TextView>(R.id.subjectText)
+        val subjectText = view.findViewById<TextView>(R.id.subjectText)
 
         // Number of questions
-        val questionCountEditText =
-            view.findViewById<EditText>(R.id.questionCountEditText)
+        val questionCountEditText = view.findViewById<EditText>(R.id.questionCountEditText)
 
         // Negative marking
-        val negativeMarkingSwitch =
-            view.findViewById<Switch>(R.id.negativeMarkingSwitch)
+        val negativeMarkingSwitch = view.findViewById<Switch>(R.id.negativeMarkingSwitch)
 
         // Timer
-        val timerSwitch =
-            view.findViewById<Switch>(R.id.timerSwitch)
+        val timerSwitch = view.findViewById<Switch>(R.id.timerSwitch)
 
         // Start button
-        val startQuizButton =
-            view.findViewById<Button>(R.id.startQuizButton)
+        val startQuizButton = view.findViewById<Button>(R.id.startQuizButton)
 
 
         // Show selected subject
-        subjectText.text = subject
+        val subject = GlobalData.subject.toString()
+        subjectText.text = "You've Choosen : $subject"
 
 
         // Start Quiz
@@ -80,8 +64,7 @@ class TestConfigFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            val questionCount =
-                questionCountText.toIntOrNull()
+           var questionCount = questionCountText.toIntOrNull()
 
             // Check if valid number
             if (questionCount == null || questionCount <= 0) {
@@ -93,11 +76,9 @@ class TestConfigFragment : Fragment() {
             }
 
 
-            val negativeMarking =
-                negativeMarkingSwitch.isChecked
+            val negativeMarking = negativeMarkingSwitch.isChecked
 
-            val timerEnabled =
-                timerSwitch.isChecked
+            val timerEnabled = timerSwitch.isChecked
 
 
             // Send configuration to ExamPage
@@ -105,12 +86,10 @@ class TestConfigFragment : Fragment() {
                 requireContext(),
                 ExamPage::class.java
             )
-
             intent.putExtra(
                 "subject",
                 subject
             )
-
             intent.putExtra(
                 "questionCount",
                 questionCount
@@ -137,9 +116,7 @@ class TestConfigFragment : Fragment() {
 
     companion object {
 
-        fun newInstance(
-            subject: String
-        ): TestConfigFragment {
+        fun newInstance(subject: String): TestConfigFragment {
 
             val fragment = TestConfigFragment()
 
