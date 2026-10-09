@@ -13,6 +13,8 @@ class QuestionSelectionFragment : Fragment() {
 
     // Class-level variable so openConfig() can access it
     private var subject = ""
+    private var code = ""
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,48 +60,56 @@ class QuestionSelectionFragment : Fragment() {
         // DSA
         dsaButton.setOnClickListener {
             subject = "Data Structures and Algorithms"
+            code = "DSA"
             openConfig()
         }
 
         // DBMS
         dbmsButton.setOnClickListener {
             subject = "Database Management Systems"
+            code = "DBMS"
             openConfig()
         }
 
         // OS
         osButton.setOnClickListener {
             subject = "Operating Systems"
+            code = "OS"
             openConfig()
         }
 
         // CN
         cnButton.setOnClickListener {
             subject = "Computer Networks"
+            code = "CN"
             openConfig()
         }
 
         // OOP
         oopButton.setOnClickListener {
             subject = "Object Oriented Programming"
+            code = "OOP"
             openConfig()
         }
 
         // COA
         coaButton.setOnClickListener {
             subject = "Computer Organization and Architecture"
+            code = "COA"
             openConfig()
         }
 
         // DAA
         daaButton.setOnClickListener {
             subject = "Design and Analysis of Algorithms"
+            code = "DAA"
             openConfig()
         }
 
         // Software Engineering
         seButton.setOnClickListener {
             subject = "Software Engineering"
+            code = "SE"
             openConfig()
         }
     }
@@ -107,6 +117,8 @@ class QuestionSelectionFragment : Fragment() {
     private fun openConfig() {
 
         GlobalData.subject = subject
+        GlobalData.code = code
+
 
         requireActivity()
             .supportFragmentManager
