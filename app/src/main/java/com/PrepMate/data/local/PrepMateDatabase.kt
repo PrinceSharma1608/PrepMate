@@ -6,8 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [BookmarkedQuestion::class],
-    version = 1,
+    entities = [
+        BookmarkedQuestion::class,
+        QuizAttempt::class
+    ],
+    version = 2,
     exportSchema = false
 )
 abstract class PrepMateDatabase : RoomDatabase() {
@@ -25,7 +28,8 @@ abstract class PrepMateDatabase : RoomDatabase() {
                     context.applicationContext,
                     PrepMateDatabase::class.java,
                     "prepmate_database"
-                ).build()
+                )
+                    .build()
 
                 INSTANCE = instance
                 instance

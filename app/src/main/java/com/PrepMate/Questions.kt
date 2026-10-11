@@ -1,6 +1,7 @@
 package com.PrepMate
 
 data class Question(
+    val questionID: String,
     val question: String,
     val optionA: String,
     val optionB: String,

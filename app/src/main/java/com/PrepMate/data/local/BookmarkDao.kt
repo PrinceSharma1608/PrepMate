@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
+
 @Dao
 interface BookmarkDao {
 
@@ -21,4 +22,16 @@ interface BookmarkDao {
         "SELECT EXISTS(SELECT 1 FROM bookmarked_questions WHERE qid = :qid)"
     )
     suspend fun isBookmarked(qid: String): Boolean
+
+
+    // ---------- QUIZ ATTEMPT METHODS ----------
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAttempt(attempt: QuizAttempt)
+
+    @Query("SELECT * FROM quiz_attempts ORDER BY timestamp DESC")
+    suspend fun getAllAttempts(): List<QuizAttempt>
+
+    @Query("SELECT * FROM quiz_attempts WHERE firestoreId = :id")
+    suspend fun getAttemptById(id: String): QuizAttempt?
 }

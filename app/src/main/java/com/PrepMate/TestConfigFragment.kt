@@ -107,6 +107,7 @@ class TestConfigFragment : Fragment() {
                 // Convert Firestore documents into Question objects
                 for (document in result) {
                     val question = Question(
+                        questionID = document.id,
                         question = document.getString("question") ?: "",
                         optionA = document.getString("optionA") ?: "",
                         optionB = document.getString("optionB") ?: "",
@@ -149,6 +150,17 @@ class TestConfigFragment : Fragment() {
                 GlobalData.selectedQuestions = questions
                     .take(questionCount)
                     .toMutableList()
+                GlobalData.attemptResponses.clear()
+
+                GlobalData.selectedQuestions.forEach { question ->
+                    GlobalData.attemptResponses[question.questionID] =
+                        AttemptResponse(
+                            questionId = question.questionID,
+                            question = question.question,
+                            correctOption = question.correctAnswer,
+                            selectedOption = null
+                        )
+                }
 
                 // Show success Toast
                 Toast.makeText(

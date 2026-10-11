@@ -1,4 +1,4 @@
-package com.PrepMate
+package com.PrepMate.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -6,9 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "quiz_attempts")
 data class QuizAttempt(
 
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-
+    @PrimaryKey
     val firestoreId: String,
 
     val timestamp: Long,

@@ -7,12 +7,13 @@ package com.PrepMate
         var timer = ""
         var selectedQuestions = mutableListOf<Question>()
         var code = ""
+
         var question =""
         var optionA=""
         var optionB=""
         var optionC=""
         var optionD=""
         var correctAnswer=""
-
         var choosen = "None"
+        var attemptResponses = mutableMapOf<String, AttemptResponse>()
     }
