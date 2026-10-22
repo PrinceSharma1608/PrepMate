@@ -1,9 +1,13 @@
+
 package com.PrepMate
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.*
+import android.graphics.Color
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.PrepMate.data.local.*
@@ -32,7 +36,21 @@ class ExamPage : AppCompatActivity() {
     private var countDownTimer: CountDownTimer? = null
     private var qid: String = ""
 
-    // Load the current question
+    // SCORE POPUP
+    private fun showScorePopup(score: Int, totalQuestions: Int) {
+        AlertDialog.Builder(this)
+            .setTitle("Exam Completed!")
+            .setMessage("Your Score: $score / $totalQuestions. \nVisit Attempt Analysis to see detailed analysis")
+            .setCancelable(false)
+            .setPositiveButton("OK") { _, _ ->
+                val intent = Intent(this, TestSelection::class.java)
+                startActivity(intent)
+                finish()
+            }
+            .show()
+    }
+
+
     private fun qGetter() {
         val question = GlobalData.selectedQuestions[count - 1]
 
@@ -51,7 +69,6 @@ class ExamPage : AppCompatActivity() {
         optionC.text = GlobalData.optionC
         optionD.text = GlobalData.optionD
 
-        // Restore the selected answer if this question is revisited
         val selectedOption =
             GlobalData.attemptResponses[qid]?.selectedOption
 
@@ -79,7 +96,7 @@ class ExamPage : AppCompatActivity() {
         }
     }
 
-    // Bookmark the current question
+    // BOOKMARK QUESTION
     private fun bookmarkQ() {
         lifecycleScope.launch {
             try {
@@ -114,7 +131,7 @@ class ExamPage : AppCompatActivity() {
         }
     }
 
-    // Evaluate the current question once
+    // CHECK ANSWER AND UPDATE SCORE
     private fun checker() {
         val selectedId = optionsGroup.checkedRadioButtonId
 
@@ -123,7 +140,8 @@ class ExamPage : AppCompatActivity() {
         val selectedRadioButton =
             findViewById<RadioButton>(selectedId)
 
-        val selectedAnswer = selectedRadioButton.text.toString()
+        val selectedAnswer =
+            selectedRadioButton.text.toString()
 
         if (selectedAnswer == GlobalData.correctAnswer) {
             score++
@@ -132,7 +150,7 @@ class ExamPage : AppCompatActivity() {
         }
     }
 
-    // Finish the quiz, including timer expiry
+    // FINISH QUIZ
     private fun finishQuiz() {
         if (finished) return
 
@@ -140,19 +158,17 @@ class ExamPage : AppCompatActivity() {
         nxt.isEnabled = false
         countDownTimer?.cancel()
 
-        // Evaluate the currently displayed question
+        // Check the last question
         checker()
 
-        Toast.makeText(
-            this,
-            "Your score is $score",
-            Toast.LENGTH_LONG
-        ).show()
-
+        // Save attempt to Firestore and Room
         submitAttempt()
+
+        // Display final score
+        showScorePopup(score, totalQuestions)
     }
 
-    // Store responses in Firestore, then save metadata in Room
+    // SAVE ATTEMPT
     private fun submitAttempt() {
         val timestamp = System.currentTimeMillis()
 
@@ -165,7 +181,7 @@ class ExamPage : AppCompatActivity() {
             )
         }
 
-        // Firestore contains only the responses array
+        // Firestore contains the responses array
         val attemptData = hashMapOf(
             "responses" to responses
         )
@@ -216,8 +232,10 @@ class ExamPage : AppCompatActivity() {
             }
     }
 
+    // ACTIVITY SETUP
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_exam_page)
 
@@ -251,7 +269,7 @@ class ExamPage : AppCompatActivity() {
         val bookmarkButton =
             findViewById<TextView>(R.id.textView2)
 
-        // Display the first question
+        // Load first question
         qGetter()
 
         questionNumberText.text =
@@ -260,13 +278,13 @@ class ExamPage : AppCompatActivity() {
         nxt.text =
             if (totalQuestions == 1) "Finish" else "Next"
 
-        // Bookmark button
+        // BOOKMARK BUTTON
         bookmarkButton.setOnClickListener {
             bookmarkQ()
-            bookmarkButton.text = "Bookmarked !"
+            bookmarkButton.text = "  Bookmarked !   "
         }
 
-        // Timer
+        // TIMER
         val time = GlobalData.timer.toInt()
 
         if (time > 0) {
@@ -275,11 +293,12 @@ class ExamPage : AppCompatActivity() {
             timerText.text = "No Timer"
         }
 
-        // Next / Finish button
+        // NEXT / FINISH BUTTON
         nxt.setOnClickListener {
             if (finished) return@setOnClickListener
 
             if (count < totalQuestions) {
+
                 checker()
 
                 count++
@@ -290,7 +309,8 @@ class ExamPage : AppCompatActivity() {
                     "Question $count/$totalQuestions"
 
                 nxt.text =
-                    if (count == totalQuestions) "Finish" else "Next"
+                    if (count == totalQuestions) "Finish"
+                    else "Next"
 
             } else {
                 finishQuiz()
@@ -298,7 +318,7 @@ class ExamPage : AppCompatActivity() {
         }
     }
 
-    // Timer
+    // COUNTDOWN TIMER
     private fun startTimer(minutes: Int) {
         val totalTimeMillis = minutes * 60 * 1000L
 
@@ -317,6 +337,10 @@ class ExamPage : AppCompatActivity() {
                         minutesLeft,
                         secondsLeft
                     )
+
+                    if (minutesLeft == 1L && secondsLeft == 0L) {
+                        timerText.setTextColor(Color.RED)
+                    }
                 }
 
                 override fun onFinish() {

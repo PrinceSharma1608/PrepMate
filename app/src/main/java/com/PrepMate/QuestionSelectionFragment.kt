@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 
 class QuestionSelectionFragment : Fragment() {
@@ -35,6 +38,12 @@ class QuestionSelectionFragment : Fragment() {
     ) {
 
         super.onViewCreated(view, savedInstanceState)
+        val drawerLayout = view.findViewById<DrawerLayout>(R.id.drawerLayout)
+        val menuButton = view.findViewById<ImageButton>(R.id.menuButton)
+
+        menuButton.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
 
         val prefs = requireActivity()
             .getSharedPreferences("PrepMatePrefs", MODE_PRIVATE)
@@ -88,7 +97,7 @@ class QuestionSelectionFragment : Fragment() {
         // OOP
         oopButton.setOnClickListener {
             subject = "Object Oriented Programming"
-            code = "OOP"
+            code = "OOP in Java"
             openConfig()
         }
 
@@ -109,7 +118,7 @@ class QuestionSelectionFragment : Fragment() {
         // Software Engineering
         seButton.setOnClickListener {
             subject = "Software Engineering"
-            code = "SE"
+            code = "Software Engineering"
             openConfig()
         }
     }
