@@ -29,6 +29,9 @@
             android:name=".ExamPage"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".BookmarksActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

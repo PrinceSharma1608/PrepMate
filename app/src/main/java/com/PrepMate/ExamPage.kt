@@ -1,4 +1,3 @@
-
 package com.PrepMate
 
 import android.content.Intent
@@ -29,9 +28,9 @@ class ExamPage : AppCompatActivity() {
     private lateinit var optionC: RadioButton
     private lateinit var optionD: RadioButton
     private lateinit var optionsGroup: RadioGroup
+    private lateinit var bookmarkButton: TextView
 
-    private val totalQuestions =
-        GlobalData.numberOfQuestions.toInt()
+    private val totalQuestions = GlobalData.numberOfQuestions.toInt()
 
     private var countDownTimer: CountDownTimer? = null
     private var qid: String = ""
@@ -68,6 +67,12 @@ class ExamPage : AppCompatActivity() {
         optionB.text = GlobalData.optionB
         optionC.text = GlobalData.optionC
         optionD.text = GlobalData.optionD
+
+        bookmarkButton.text = "  Bookmark this question   "
+        lifecycleScope.launch {
+            val isBookmarked = PrepMateDatabase.getDatabase(this@ExamPage).bookmarkDao().isBookmarked(qid)
+            bookmarkButton.text = if (isBookmarked) "  Bookmarked !   " else "  Bookmark this question   "
+        }
 
         val selectedOption =
             GlobalData.attemptResponses[qid]?.selectedOption
@@ -114,6 +119,7 @@ class ExamPage : AppCompatActivity() {
                 )
 
                 db.bookmarkDao().addBookmark(bookmarkedQuestion)
+                bookmarkButton.text = "  Bookmarked !   "
 
                 Toast.makeText(
                     this@ExamPage,
@@ -266,8 +272,8 @@ class ExamPage : AppCompatActivity() {
         optionsGroup =
             findViewById(R.id.optionsGroup)
 
-        val bookmarkButton =
-            findViewById<TextView>(R.id.textView2)
+        bookmarkButton =
+            findViewById(R.id.textView2)
 
         // Load first question
         qGetter()

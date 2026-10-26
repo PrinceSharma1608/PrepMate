@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardBackgroundColor="#F1F8F2"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp"
+    app:contentPadding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/bookmarkQuestionNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Question 1"
+                android:textColor="#3F5D46"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/bookmarkSubject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#E3F0E5"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:text="DSA"
+                android:textColor="#3F5D46"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/bookmarkQuestionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:text="Your bookmarked question will appear here."
+            android:textColor="#24382A"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:lineSpacingExtra="3dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DCE9DE" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="8dp"
+            android:text="Choose an answer"
+            android:textColor="#5E7562"
+            android:textSize="13sp" />
+
+        <RadioGroup
+            android:id="@+id/bookmarkOptionsGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/bookmarkOptionA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingVertical="8dp"
+                android:buttonTint="#6B8F71"
+                android:text="Option A"
+                android:textColor="#304536"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/bookmarkOptionB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingVertical="8dp"
+                android:buttonTint="#6B8F71"
+                android:text="Option B"
+                android:textColor="#304536"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/bookmarkOptionC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingVertical="8dp"
+                android:buttonTint="#6B8F71"
+                android:text="Option C"
+                android:textColor="#304536"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/bookmarkOptionD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingVertical="8dp"
+                android:buttonTint="#6B8F71"
+                android:text="Option D"
+                android:textColor="#304536"
+                android:textSize="14sp" />
+
+        </RadioGroup>
+
+        <!-- Half-width action aligned to the right -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/removeBookmarkButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="8dp"
+                android:text="Remove Bookmark"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:minHeight="44dp"
+                android:textColor="#B42318"
+                app:backgroundTint="#FEE4E2"
+                app:cornerRadius="10dp"
+                app:icon="@android:drawable/ic_menu_delete"
+                app:iconTint="#B42318"
+                app:iconGravity="textStart" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

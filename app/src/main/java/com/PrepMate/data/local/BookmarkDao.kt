@@ -18,11 +18,8 @@ interface BookmarkDao {
     @Query("SELECT * FROM bookmarked_questions ORDER BY qid")
     suspend fun getAllBookmarks(): List<BookmarkedQuestion>
 
-    @Query(
-        "SELECT EXISTS(SELECT 1 FROM bookmarked_questions WHERE qid = :qid)"
-    )
+    @Query("SELECT EXISTS(SELECT 1 FROM bookmarked_questions WHERE qid = :qid)")
     suspend fun isBookmarked(qid: String): Boolean
-
 
     // ---------- QUIZ ATTEMPT METHODS ----------
 

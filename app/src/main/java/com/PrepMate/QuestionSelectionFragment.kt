@@ -1,5 +1,7 @@
+
 package com.PrepMate
 
+import android.content.Intent
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,17 +16,14 @@ import androidx.fragment.app.Fragment
 
 class QuestionSelectionFragment : Fragment() {
 
-    // Class-level variable so openConfig() can access it
     private var subject = ""
     private var code = ""
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         return inflater.inflate(
             R.layout.fragment_question_selection,
             container,
@@ -36,35 +35,83 @@ class QuestionSelectionFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-
         super.onViewCreated(view, savedInstanceState)
-        val drawerLayout = view.findViewById<DrawerLayout>(R.id.drawerLayout)
-        val menuButton = view.findViewById<ImageButton>(R.id.menuButton)
+
+        // Navigation drawer
+        val drawerLayout =
+            view.findViewById<DrawerLayout>(R.id.drawerLayout)
+
+        val menuButton =
+            view.findViewById<ImageButton>(R.id.menuButton)
 
         menuButton.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
 
+        // Welcome message
         val prefs = requireActivity()
             .getSharedPreferences("PrepMatePrefs", MODE_PRIVATE)
 
         val name = prefs.getString("userName", null)
 
-        val welcomeText = view.findViewById<TextView>(
-            R.id.welcomeText
-        )
+        val welcomeText =
+            view.findViewById<TextView>(R.id.welcomeText)
 
         welcomeText.text = "Welcome, $name!"
 
-        // Buttons
-        val dsaButton = view.findViewById<LinearLayout>(R.id.dsaButton)
-        val dbmsButton = view.findViewById<LinearLayout>(R.id.dbmsButton)
-        val osButton = view.findViewById<LinearLayout>(R.id.osButton)
-        val cnButton = view.findViewById<LinearLayout>(R.id.cnButton)
-        val oopButton = view.findViewById<LinearLayout>(R.id.oopButton)
-        val coaButton = view.findViewById<LinearLayout>(R.id.coaButton)
-        val daaButton = view.findViewById<LinearLayout>(R.id.daaButton)
-        val seButton = view.findViewById<LinearLayout>(R.id.seButton)
+        // Bookmarked Questions menu item
+        val bookmarkedQuestionsOption =
+            view.findViewById<TextView>(
+                R.id.bookmarkedQuestionsOption
+            )
+
+        bookmarkedQuestionsOption.setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+
+            startActivity(
+                Intent(
+                    requireActivity(),
+                    BookmarksActivity::class.java
+                )
+            )
+        }
+
+        // Attempt Analysis menu item
+        val attemptAnalysisOption =
+            view.findViewById<TextView>(
+                R.id.attemptAnalysisOption
+            )
+
+        attemptAnalysisOption.setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+
+            // Add Attempt Analysis navigation here when ready.
+        }
+
+        // Subject buttons
+        val dsaButton =
+            view.findViewById<LinearLayout>(R.id.dsaButton)
+
+        val dbmsButton =
+            view.findViewById<LinearLayout>(R.id.dbmsButton)
+
+        val osButton =
+            view.findViewById<LinearLayout>(R.id.osButton)
+
+        val cnButton =
+            view.findViewById<LinearLayout>(R.id.cnButton)
+
+        val oopButton =
+            view.findViewById<LinearLayout>(R.id.oopButton)
+
+        val coaButton =
+            view.findViewById<LinearLayout>(R.id.coaButton)
+
+        val daaButton =
+            view.findViewById<LinearLayout>(R.id.daaButton)
+
+        val seButton =
+            view.findViewById<LinearLayout>(R.id.seButton)
 
         // DSA
         dsaButton.setOnClickListener {
@@ -87,7 +134,7 @@ class QuestionSelectionFragment : Fragment() {
             openConfig()
         }
 
-        // CN
+        // Computer Networks
         cnButton.setOnClickListener {
             subject = "Computer Networks"
             code = "CN"
@@ -124,10 +171,8 @@ class QuestionSelectionFragment : Fragment() {
     }
 
     private fun openConfig() {
-
         GlobalData.subject = subject
         GlobalData.code = code
-
 
         requireActivity()
             .supportFragmentManager
