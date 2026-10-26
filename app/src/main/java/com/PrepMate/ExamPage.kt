@@ -206,8 +206,10 @@ class ExamPage : AppCompatActivity() {
 
                         val attempt = QuizAttempt(
                             firestoreId = firestoreId,
-                            timestamp = timestamp,
-                            score = score
+                            subject = GlobalData.subject.ifEmpty { GlobalData.code },
+                            score = score,
+                            totalQuestions = totalQuestions,
+                            timestamp = timestamp
                         )
 
                         db.bookmarkDao().insertAttempt(attempt)

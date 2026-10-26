@@ -22,8 +22,6 @@ class BookmarkAdapter(
 
         val questionNumber: TextView = view.findViewById(R.id.bookmarkQuestionNumber)
 
-        val subject: TextView = view.findViewById(R.id.bookmarkSubject)
-
         val questionText: TextView = view.findViewById(R.id.bookmarkQuestionText)
 
         val optionsGroup: RadioGroup = view.findViewById(R.id.bookmarkOptionsGroup)
@@ -93,7 +91,7 @@ class BookmarkAdapter(
                 val selectedRadio = group.findViewById<RadioButton>(checkedId)
                 val selectedText = selectedRadio.text.toString()
 
-                val greenColor = Color.parseColor("#2E7D32")
+                val greenColor = Color.parseColor("#1B5E20")
                 val redColor = Color.parseColor("#C62828")
 
                 if (selectedText == bookmark.correctAnswer) {

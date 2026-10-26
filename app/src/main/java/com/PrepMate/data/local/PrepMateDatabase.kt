@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase
         BookmarkedQuestion::class,
         QuizAttempt::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class PrepMateDatabase : RoomDatabase() {
@@ -29,6 +29,7 @@ abstract class PrepMateDatabase : RoomDatabase() {
                     PrepMateDatabase::class.java,
                     "prepmate_database"
                 )
+                    .fallbackToDestructiveMigration(true)
                     .build()
 
                 INSTANCE = instance

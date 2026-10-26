@@ -85,7 +85,12 @@ class QuestionSelectionFragment : Fragment() {
         attemptAnalysisOption.setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)
 
-            // Add Attempt Analysis navigation here when ready.
+            startActivity(
+                Intent(
+                    requireActivity(),
+                    AttemptAnalysisActivity::class.java
+                )
+            )
         }
 
         // Subject buttons
